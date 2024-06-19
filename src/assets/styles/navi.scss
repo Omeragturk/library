@@ -1,0 +1,42 @@
+nav {
+  background-color: #ff9a00;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  width: 100%;
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    img {
+      width: 80px;
+      cursor: pointer;
+    }
+
+    h3 {
+      margin: 0;
+    }
+  }
+
+  ul {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+    font-size: 18px;
+    cursor: pointer;
+
+    li {
+      font-weight: 600;
+      transition: color 0.3s;
+      transform: skew(-10deg);
+
+      &:hover {
+        color: red;
+      }
+    }
+  }
+}
