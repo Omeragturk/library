@@ -1,20 +1,20 @@
 import React from "react";
 import "../styles/card.scss";
 
-const Card = ({ kitap, onDelete }) => {
+const Card = ({ kitap, onDelete, onEdit }) => {
   const handleDelete = () => {
     onDelete(kitap.id);
   };
 
+  const handleEdit = () => {
+    onEdit(kitap);
+  };
+
   return (
     <div className="card">
-      <button className="delete" onClick={handleDelete}>
-        Delete
-      </button>
-      <button className="edit">Edit</button>
       <img src={kitap.kitapResmi} alt="kitapKapak" />
-      <div className="card-body">
-        <h4>{kitap.kitapAdi.split(" ", 3).join(" ")}</h4>
+      <div className="card-info">
+        <h4>{kitap.kitapAdi}</h4>
         <p>
           <b>Yazarı:</b> {kitap.kitapYazari}
         </p>
@@ -25,12 +25,16 @@ const Card = ({ kitap, onDelete }) => {
           <b>Sayfa Sayısı:</b> {kitap.kitapSayfaSayisi}
         </p>
         <p>
-          <b>Açıklaması:</b>{" "}
-          {kitap.kitapAciklamasi.substring(
-            0,
-            kitap.kitapAciklamasi.substring(0, 120).lastIndexOf(" ")
-          ) + "..."}
+          <b>Açıklaması:</b> {kitap.kitapAciklamasi.substring(0, 120) + "..."}
         </p>
+      </div>
+      <div className="card-buttons">
+        <button className="edit" onClick={handleEdit}>
+          Edit
+        </button>
+        <button className="delete" onClick={handleDelete}>
+          Delete
+        </button>
       </div>
     </div>
   );

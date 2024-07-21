@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/forms.scss";
 import { katagoriler } from "../data/data";
 
-const Forms = ({ addBook }) => {
+const Forms = ({ addBook, editBook, currentBook, setCurrentBook }) => {
   const [kitapAdi, setKitapAdi] = useState("");
   const [kitapYazari, setKitapYazari] = useState("");
   const [kitapKategorisi, setKitapKategorisi] = useState("Kategori Seçiniz");
@@ -10,18 +10,46 @@ const Forms = ({ addBook }) => {
   const [kitapResmi, setKitapResmi] = useState("");
   const [kitapAciklamasi, setKitapAciklamasi] = useState("");
 
+  useEffect(() => {
+    if (currentBook) {
+      setKitapAdi(currentBook.kitapAdi);
+      setKitapYazari(currentBook.kitapYazari);
+      setKitapKategorisi(currentBook.kitapKategorisi);
+      setKitapSayfaSayisi(currentBook.kitapSayfaSayisi);
+      setKitapResmi(currentBook.kitapResmi);
+      setKitapAciklamasi(currentBook.kitapAciklamasi);
+    }
+  }, [currentBook]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newBook = {
-      id: Date.now(),
-      kitapAdi,
-      kitapYazari,
-      kitapKategorisi,
-      kitapSayfaSayisi,
-      kitapResmi,
-      kitapAciklamasi,
-    };
-    addBook(newBook);
+    if (currentBook) {
+      editBook({
+        id: currentBook.id,
+        kitapAdi,
+        kitapYazari,
+        kitapKategorisi,
+        kitapSayfaSayisi,
+        kitapResmi,
+        kitapAciklamasi,
+      });
+      setCurrentBook(null);
+    } else {
+      const newBook = {
+        id: Date.now(),
+        kitapAdi,
+        kitapYazari,
+        kitapKategorisi,
+        kitapSayfaSayisi,
+        kitapResmi,
+        kitapAciklamasi,
+      };
+      addBook(newBook);
+    }
+    resetForm();
+  };
+
+  const resetForm = () => {
     setKitapAdi("");
     setKitapYazari("");
     setKitapKategorisi("Kategori Seçiniz");
@@ -32,7 +60,7 @@ const Forms = ({ addBook }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h3>Kitap Ekle</h3>
+      <h3>{currentBook ? "Kitap Güncelle" : "Kitap Ekle"}</h3>
       <input
         type="text"
         placeholder="Kitap Adı"
@@ -72,7 +100,7 @@ const Forms = ({ addBook }) => {
         value={kitapAciklamasi}
         onChange={(e) => setKitapAciklamasi(e.target.value)}
       ></textarea>
-      <input type="submit" value="Ekle" />
+      <input type="submit" value={currentBook ? "Güncelle" : "Ekle"} />
     </form>
   );
 };

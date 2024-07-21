@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Card from "./Card";
 import "../styles/cardList.scss";
 
-const CardList = ({ kitaplar }) => {
+const CardList = ({ kitaplar, deleteBook, editBook, setCurrentBook }) => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearchChange = (e) => {
@@ -32,7 +32,12 @@ const CardList = ({ kitaplar }) => {
 
       <div className="card-list">
         {filteredKitaplar.map((kitap) => (
-          <Card key={kitap.id} kitap={kitap} />
+          <Card
+            key={kitap.id}
+            kitap={kitap}
+            onDelete={deleteBook}
+            onEdit={setCurrentBook}
+          />
         ))}
       </div>
     </div>
